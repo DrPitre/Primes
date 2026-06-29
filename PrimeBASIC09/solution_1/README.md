@@ -1,33 +1,26 @@
 # BASIC09 solution by boisy
 
 ![Algorithm](https://img.shields.io/badge/Algorithm-base-green)
-![Faithfulness](https://img.shields.io/badge/Faithful-no-yellowgreen)
+![Faithfulness](https://img.shields.io/badge/Faithful-yes-green)
 ![Parallelism](https://img.shields.io/badge/Parallel-no-green)
-![Bit count](https://img.shields.io/badge/Bits-unknown-yellowgreen)
-![Deviation](https://img.shields.io/badge/Deviation-sievesize-blue)
+![Bit count](https://img.shields.io/badge/Bits-16-yellowgreen)
+![Deviation](https://img.shields.io/badge/Deviation-none-blue)
 
-This is a BASIC09 implementation of an odd-only Sieve of Eratosthenes for OS-9.
+This is a BASIC09 implementation of an odd-only Sieve of Eratosthenes compiled to a native binary via [basic09c](https://github.com/DrPitre/basic09c).
 
-The program uses a sieve size of 10,000 rather than the standard 1,000,000 so it can run on typical 6809 BASIC09 systems with constrained data space. It stores one odd candidate per integer array element, with `0` meaning "prime until proven composite" and `1` meaning "composite".
+It runs a single pass over the full 1,000,000 sieve, using REAL (64-bit double) variables to avoid i16 overflow on large values. Each odd candidate is stored as one BOOLEAN array element. The program validates against the known prime count of 78,498 and emits a drag-race result line.
 
 ## Run instructions
 
-Run the program from BASIC09 on OS-9:
+Compile and run with [basic09c](https://github.com/DrPitre/basic09c):
 
-```text
-basic09
-B:load primes.b09
-B:run primes
+```bash
+basic09c --compile -o primes primes.b09
+./primes
 ```
-
-This solution is source-only. A Dockerfile is not included because this repository does not currently contain a Dockerized BASIC09 or OS-9 execution environment.
 
 ## Output
 
-The program validates against the known prime count for 10,000, which is 1,229, and emits a drag-race-style result line:
-
 ```log
-boisy_basic09;1;0;1;algorithm=base,faithful=no
+boisy_basic09;1;0;1;algorithm=base,faithful=yes
 ```
-
-The elapsed-time field is `0` because this source-level version does not include a portable BASIC09 timing harness.

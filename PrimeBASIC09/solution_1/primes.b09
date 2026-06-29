@@ -1,38 +1,32 @@
 PROCEDURE primes
-REM BASIC09 odd-only Sieve of Eratosthenes for OS-9.
-REM Uses a reduced 10,000 limit to fit typical 6809 BASIC09 systems.
+REM BASIC09 odd-only Sieve of Eratosthenes.
+REM Single pass, no timing. Uses REAL vars to handle 1,000,000 limit.
 
-DIM LIMIT,NHALF,NSQ:INTEGER
-DIM I,J,COUNT,EXPECTED,VALID:INTEGER
-DIM FLAGS(5000):INTEGER
+DIM LIMIT,NHALF,NSQ,I,J,COUNT:REAL
+DIM FLAGS(499999):BOOLEAN
 
-LIMIT=10000
-NHALF=INT((LIMIT-1)/2)
+LIMIT=1000000.0
+NHALF=(LIMIT-1)/2
 NSQ=INT((SQR(LIMIT)-1)/2)
 
+FOR I=0 TO NHALF
+  FLAGS(I)=FALSE
+NEXT I
 FOR I=1 TO NSQ
-  IF FLAGS(I)=0 THEN
+  IF FLAGS(I)=FALSE THEN
     FOR J=2*I*(I+1) TO NHALF STEP 2*I+1
-      FLAGS(J)=1
+      FLAGS(J)=TRUE
     NEXT J
   ENDIF
 NEXT I
 
 COUNT=1
 FOR I=1 TO NHALF
-  IF FLAGS(I)=0 THEN
-    COUNT=COUNT+1
-  ENDIF
+  IF FLAGS(I)=FALSE THEN COUNT=COUNT+1
 NEXT I
 
-EXPECTED=1229
-VALID=0
-IF COUNT=EXPECTED THEN
-  VALID=1
-ENDIF
-
-IF VALID=1 THEN
-  PRINT "boisy_basic09;1;0;1;algorithm=base,faithful=no"
+IF COUNT=78498.0 THEN
+  PRINT "boisy_basic09;1;0;1;algorithm=base,faithful=yes"
 ELSE
   PRINT "boisy_basic09;1;0;0;algorithm=base,faithful=no"
 ENDIF
